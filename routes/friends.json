@@ -1,0 +1,25 @@
+{
+    "friends": [
+        {
+            "id": "1",
+            "name": "DK",
+            "city": "Pune"
+        },
+        {
+            "id": "2",
+            "name": "Pappu",
+            "city": "Indore"
+        },
+        {
+            "id": "3",
+            "name": "Hussain",
+            "city": "Pune"
+        },
+        {
+            "id": "4",
+            "name": "Chintu",
+            "city": "Surat"
+            
+        }
+    ]
+}

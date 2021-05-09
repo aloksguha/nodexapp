@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1= title
+  p #{content}
+  h2 APIs
+  each _, i in Array(3)
+    li #{api[i]}
