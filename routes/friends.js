@@ -3,7 +3,6 @@ var friendsjson = require('./friends.json')
 var router = express.Router();
 
 
-/* GET friends listing. */
 router.get('/', function(req, res, next) {
   res.json(friendsjson.friends);
 });

@@ -17,6 +17,41 @@ app.use(express.urlencoded({
   extended: true
 }));
 
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Test Express API',
+    version: '1.0.0',
+    description:
+      'This is a REST API application made with Express.',
+    license: {
+      name: 'Licensed Under MIT',
+      url: 'https://spdx.org/licenses/MIT.html',
+    },
+    contact: {
+      name: 'AlokGuha',
+      url: 'https://www.alokguha.com',
+    },
+  },
+  servers: [
+    {
+      url: 'http://localhost:3000',
+      description: 'Development server',
+    },
+  ],
+};
+
+const options = {
+  swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['./routes/*.js'],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
