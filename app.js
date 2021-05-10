@@ -7,8 +7,10 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var friendsRouter = require('./routes/friends');
+const { handleHealthCheck } = require('@kunalnagarco/healthie');
 
 var app = express();
+app.use(handleHealthCheck());
 
 app.use(express.json());
 app.use(express.urlencoded({
