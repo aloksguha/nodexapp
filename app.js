@@ -3,10 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var friendsRouter = require('./routes/friends');
+var todoRouter = require('./routes/todo')
 const { handleHealthCheck } = require('@kunalnagarco/healthie');
 
 var app = express();
@@ -43,6 +45,7 @@ const swaggerDefinition = {
   ],
 };
 
+
 const options = {
   swaggerDefinition,
   // Paths to files containing OpenAPI definitions
@@ -50,7 +53,23 @@ const options = {
 };
 
 const swaggerSpec = swaggerJSDoc(options);
+//console.log(swaggerSpec);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+var MONGO_DB_URL = process.env.MONGO_DB_HOST || "mongodb://localhost:27017";
+console.log("MONGO_DB_URL = ",MONGO_DB_URL);
+mongoose.connect(MONGO_DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
+var db = mongoose.connection;
+db.on('connected', () => {
+  console.log('Connected to platform_db');
+});
+db.on('disconnected', () => {
+  console.log('Disconnected platform_db');
+});
+db.once('open', () => {
+  console.log('Connection with Database platform_db succeeded');
+});
+
 
 
 // view engine setup
@@ -66,11 +85,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/friends', friendsRouter);
+app.use('/todos', todoRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+
+
 
 // error handler
 app.use(function(err, req, res, next) {
